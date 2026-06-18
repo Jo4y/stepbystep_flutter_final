@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/api_models.dart'; // 記得引入剛剛寫好的 Models
+import '../models/api_models.dart';
 
 class ApiService {
   
@@ -19,7 +19,6 @@ class ApiService {
 
   // 2. 搜尋景點 (需 Foursquare API Key)
   static Future<List<Place>> searchPlaces(String query, String location) async {
-    // 💡 記得去 Foursquare Developer 註冊拿你的真實 API Key 貼在下面
     const apiKey = 'QA4DHR3TZRKFQ4TKTBHTCTJVOOHI4MPQS05EELFJ1IQ3EE0A'; 
     
     // query: 想找什麼(如咖啡廳), near: 在哪裡(如Tokyo)
