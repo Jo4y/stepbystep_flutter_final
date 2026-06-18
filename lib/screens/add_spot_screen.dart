@@ -132,7 +132,7 @@ class _AddSpotScreenState extends State<AddSpotScreen> {
       ),
       body: Column(
         children: [
-          // 🌟 核心修正：全面改用 Flutter 官方標準 `SearchBar` 元件！
+          //  `SearchBar`
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: SearchBar(
@@ -145,7 +145,6 @@ class _AddSpotScreenState extends State<AddSpotScreen> {
               shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
               textStyle: WidgetStateProperty.all(const TextStyle(color: darkBlue, fontWeight: FontWeight.bold)),
               hintStyle: WidgetStateProperty.all(const TextStyle(color: Colors.grey)),
-              // 🌟 將搜尋按鈕與轉圈圈動態整合進 SearchBar 尾端
               trailing: [
                 if (_isLoading)
                   const Padding(

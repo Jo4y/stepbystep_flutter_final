@@ -6,7 +6,7 @@ class DetailScreen extends StatelessWidget {
   const DetailScreen({super.key, required this.place});
 
   Future<void> _refreshDetails() async {
-    // [05] 下拉更新功能：這裡可以放重新 call API 抓取店家最新評價的邏輯
+    // [05] 下拉更新功能
     await Future.delayed(const Duration(seconds: 1));
   }
 
@@ -18,9 +18,8 @@ class DetailScreen extends StatelessWidget {
       body: RefreshIndicator(
         onRefresh: _refreshDetails,
         child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(), // 確保資料不夠多也能下拉
+          physics: const AlwaysScrollableScrollPhysics(),
           children: [
-            // [09] 動畫 (接收端)
             Hero(
               tag: place.id,
               child: Image.network(place.imageUrl, width: double.infinity, height: 250, fit: BoxFit.cover),

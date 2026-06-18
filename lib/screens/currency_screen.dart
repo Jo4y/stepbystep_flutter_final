@@ -207,7 +207,6 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
 
                 const Spacer(),
 
-                // 🌟 下半部：正式升級為正統 GridView 數字鍵盤！
                 Container(
                   padding: const EdgeInsets.only(left: 12, right: 12, top: 16, bottom: 8),
                   decoration: BoxDecoration(
@@ -218,10 +217,10 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                   child: SafeArea(
                     top: false,
                     child: GridView.count(
-                      shrinkWrap: true, // 🌟 關鍵：讓 GridView 只佔用剛好大小，不無限延伸
-                      physics: const NeverScrollableScrollPhysics(), // 🌟 關鍵：禁用滾動，讓它乖乖當個鍵盤底盤
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       crossAxisCount: 3, // 🌟 關鍵：一行 3 格
-                      childAspectRatio: 1.4, // 🌟 關鍵：微調寬高比，讓按鈕形狀扁平好看
+                      childAspectRatio: 1.4,
                       children: [
                         _buildKey('1'), _buildKey('2'), _buildKey('3'),
                         _buildKey('4'), _buildKey('5'), _buildKey('6'),
@@ -242,7 +241,6 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
     );
   }
 
-  // 🌟 精簡後的按鍵元件 (拿掉 Expanded，交給 GridView 統一控管尺寸)
   Widget _buildKey(String label, {Color? textColor}) {
     return Padding(
       padding: const EdgeInsets.all(5.0),

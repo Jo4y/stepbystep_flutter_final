@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart'; // 🌟 記得確保有引入這行
-import 'home_screen.dart'; // 記得確認檔名是否正確
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'home_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -14,7 +14,7 @@ class _AuthScreenState extends State<AuthScreen> {
   
   bool _isLoginMode = true; 
   bool _obscurePassword = true; 
-  bool _isLoading = false; // 🌟 新增：控制轉圈圈的載入狀態，防止黑客連點
+  bool _isLoading = false;
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -32,19 +32,17 @@ class _AuthScreenState extends State<AuthScreen> {
     super.dispose();
   }
 
-  // 🧠 串接 Supabase 的核心大腦
   Future<void> _submitAuthForm() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) return;
 
     FocusScope.of(context).unfocus();
 
-    // 🌟 開始載入，按鈕反灰
     setState(() {
       _isLoading = true;
     });
 
-    // 🌟 獲取全域的 Supabase 客戶端實例
+    // 獲取全域的 Supabase 客戶端實例
     final supabase = Supabase.instance.client;
 
     try {
@@ -59,14 +57,12 @@ class _AuthScreenState extends State<AuthScreen> {
         
         final user = supabase.auth.currentUser;
         
-        // 2. 從資料中把我們註冊時存的 username 拿出來（如果剛好沒抓到，就預設叫 '探險家'）
         final String displayName = user?.userMetadata?['username'] as String? ?? '探險家';
 
-        // 3. 帶著名字跳轉到首頁！(注意：因為 displayName 是變數，所以前面的 const 必須拿掉)
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => HomeScreen(userName: displayName), // 🌟 把名字完美傳遞過去！
+            builder: (context) => HomeScreen(userName: displayName),
           ), 
         );
 
@@ -108,7 +104,6 @@ class _AuthScreenState extends State<AuthScreen> {
     }
   }
 
-  // 🎨 抽出來的防呆錯誤彈窗
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
@@ -217,7 +212,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
                 const SizedBox(height: 24),
 
-                // 🌟 按鈕區塊：加入 Loading 判斷
                 SizedBox(
                   width: double.infinity,
                   height: 54,
@@ -228,7 +222,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                       elevation: 0,
                     ),
-                    onPressed: _isLoading ? null : _submitAuthForm, // 🌟 載入中不讓使用者點擊
+                    onPressed: _isLoading ? null : _submitAuthForm, //載入中不讓使用者點擊
                     child: _isLoading 
                         ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
                         : Text(

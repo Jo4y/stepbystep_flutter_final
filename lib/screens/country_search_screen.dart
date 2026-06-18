@@ -65,7 +65,7 @@ class _CountrySearchScreenState extends State<CountrySearchScreen> {
       ),
       body: Column(
         children: [
-          // 🌟 核心修正：全面升級為官方標準 `SearchBar` 元件！
+          //  `SearchBar`
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: SearchBar(
@@ -78,7 +78,6 @@ class _CountrySearchScreenState extends State<CountrySearchScreen> {
               shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
               textStyle: WidgetStateProperty.all(const TextStyle(color: darkBlue, fontWeight: FontWeight.bold)),
               hintStyle: WidgetStateProperty.all(const TextStyle(color: Colors.grey)),
-              // 🌟 將搜尋按鈕與轉圈圈動態整合進 SearchBar 尾端，維持視覺乾淨度
               trailing: [
                 if (_isLoading)
                   const Padding(
@@ -110,7 +109,7 @@ class _CountrySearchScreenState extends State<CountrySearchScreen> {
             child: _countries.isEmpty && !_isLoading && _errorMessage.isEmpty
                 ? const Center(child: Text('輸入英文名稱來尋找貨幣！', style: TextStyle(color: Colors.grey, fontSize: 16)))
                 : _isLoading 
-                    ? const Center(child: CircularProgressIndicator(color: darkBlue)) // 🌟 清單載入中防呆
+                    ? const Center(child: CircularProgressIndicator(color: darkBlue))
                     : ListView.builder(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         itemCount: _countries.length,
