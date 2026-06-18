@@ -4,7 +4,6 @@ import 'trip_overview_screen.dart';
 import 'currency_screen.dart';
 import 'country_search_screen.dart';
 
-// 🌟 步驟 1：升級成 StatefulWidget 以支援畫面即時更新
 class HomeScreen extends StatefulWidget {
   final String userName;
   const HomeScreen({super.key, required this.userName});
@@ -14,20 +13,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // 🌟 步驟 2：準備裝行程的清單與輸入框控制器
   List<Map<String, dynamic>> _myTrips = [];
-  bool _isLoading = true; // 🌟 雲端載入狀態
+  bool _isLoading = true; // 雲端載入狀態
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   
-  // 🌟 取得全域 Supabase 客戶端
   final supabase = Supabase.instance.client;
 
   @override
   void initState() {
     super.initState();
-    // 🌟 畫面一載入，立刻呼叫抓取雲端資料的函式
     _fetchTrips();
   }
 
@@ -38,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  // ☁️ 核心魔法 1：從 Supabase 讀取行程
   Future<void> _fetchTrips() async {
     try {
       final userId = supabase.auth.currentUser!.id;
@@ -62,9 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // ☁️ 核心魔法 2：實作刪除行程功能 (連動雲端)
   void _deleteTrip(String id) async {
-    // 為了配合 Dismissible 動畫，先在畫面上同步移除
     setState(() {
       _myTrips.removeWhere((trip) => trip['id'] == id);
     });
@@ -81,11 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // 🌟 步驟 3：實作新增與編輯的彈出視窗 (連動雲端)
   void _showTripForm({Map<String, dynamic>? trip}) {
     final isEditing = trip != null;
 
-    // 填入初始值 (💡 注意資料庫欄位叫做 date_range)
     _titleController.text = isEditing ? trip['title'] : '';
     _dateController.text = isEditing ? trip['date_range'] : '';
 
@@ -93,11 +84,11 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: const Color(0xFFFFFDF2), // 🌟 對話框背景：溫馨鵝黃
+          backgroundColor: const Color(0xFFFFFDF2),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Text(
             isEditing ? '✏️ 編輯行程' : '✨ 建立新行程',
-            style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1A365D)), // 深藍標題
+            style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1A365D)),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -123,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 16),
               TextField(
                 controller: _dateController,
-                readOnly: true, // 🌟 關鍵 1：設為唯讀，這樣點擊時才不會跳出鍵盤擋住畫面
+                readOnly: true,
                 style: const TextStyle(color: Color(0xFF1A365D), fontWeight: FontWeight.bold),
                 decoration: InputDecoration(
                   labelText: '日期區間',
@@ -131,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   hintText: '點擊選擇起訖日期',
                   filled: true,
                   fillColor: Colors.white,
-                  prefixIcon: const Icon(Icons.calendar_month, color: Color(0xFFD49E35)), // 土黃色 Icon
+                  prefixIcon: const Icon(Icons.calendar_month, color: Color(0xFFD49E35)),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(color: const Color(0xFFD49E35).withOpacity(0.5)),
@@ -200,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1A365D), // 🌟 按鈕用深藍色
+                backgroundColor: const Color(0xFF1A365D),
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
@@ -267,9 +258,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 final displayName = widget.userName; // 直接用從 Auth 傳過來的名字
 
                 return UserAccountsDrawerHeader(
-                  decoration: const BoxDecoration(color: Color(0xFF1A365D)), // 質感深藍
+                  decoration: const BoxDecoration(color: Color(0xFF1A365D)),
                   accountName: Text(displayName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  accountEmail: Text(userEmail, style: const TextStyle(color: Color(0xFFD49E35))), // 土黃色點綴
+                  accountEmail: Text(userEmail, style: const TextStyle(color: Color(0xFFD49E35))),
                   currentAccountPicture: const CircleAvatar(
                     backgroundColor: Colors.white,
                     child: Icon(Icons.person, size: 40, color: Color(0xFF1A365D)),
@@ -301,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 await supabase.auth.signOut();
                 if (mounted) {
                   Navigator.pop(context); // 關掉 Drawer
-                  Navigator.pushReplacementNamed(context, '/'); // 這裡確保有回到登入頁，可依你的路由調整
+                  Navigator.pushReplacementNamed(context, '/');
                 }
               },
             ),
@@ -311,11 +302,10 @@ class _HomeScreenState extends State<HomeScreen> {
       body: _isLoading 
         ? const Center(child: CircularProgressIndicator())
         : RefreshIndicator(
-            color: const Color(0xFF1A365D), // 下拉箭頭顏色：質感深藍
+            color: const Color(0xFF1A365D),
             backgroundColor: Colors.white,
-            onRefresh: _fetchTrips, // 🌟 核心：下拉時自動重新呼叫 Supabase 讀取最新行程
+            onRefresh: _fetchTrips, 
             child: SingleChildScrollView( 
-              // 🌟 關鍵防呆：強制讓頁面隨時可滾動。就算只有 1、2 個行程，也絕對拉得動下拉更新！
               physics: const AlwaysScrollableScrollPhysics(), 
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -326,7 +316,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     
                     const SizedBox(height: 24),
                     
-                    // 建立新行程按鈕
                     ElevatedButton.icon(
                       onPressed: () => _showTripForm(),
                       icon: const Icon(Icons.add_task),
@@ -346,7 +335,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // 🌟 原汁原味的左滑刪除卡片！
   Widget _buildDynamicTripCard(Map<String, dynamic> trip) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -435,7 +423,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Text(trip['title'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1A365D))),
                         const SizedBox(height: 4),
-                        // 💡 注意這裡：改抓 date_range 來顯示
                         Text(trip['date_range'] ?? '未定日期', style: const TextStyle(color: Colors.black54, fontSize: 14)),
                       ],
                     ),

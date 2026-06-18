@@ -470,10 +470,9 @@ class _TripOverviewScreenState extends State<TripOverviewScreen> {
       onRefresh: () => _syncCloudData(), 
       child: Column(
         children: [
-          // 🌟 核心新增：本日行程出發時間設定控制面板列
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-            color: const Color(0xFFFFFDF2), // 精緻鵝黃底色
+            color: const Color(0xFFFFFDF2),
             child: Row(
               children: [
                 const Icon(Icons.wb_sunny_outlined, color: Color(0xFFD49E35), size: 18),
@@ -664,19 +663,15 @@ class TravelLoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // 🌟 1. 保持最外層的半透明黑色遮罩，防止使用者在載入時亂點底層的按鈕
-      color: Colors.transparent, // 可以稍微調深一點點，讓中間的圖更顯眼
+      color: Colors.transparent,
       child: Center(
-        // 🌟 2. 修正亮點：直接放置 Lottie 動畫，沒有任何外框、Padding 或裝飾
         child: Lottie.network(
           'https://lottie.host/59415f90-8837-4529-b353-6c38853fd075/euMrJBHOn1.json', 
           
-          // 💡 因為它現在獨自浮在中間，我們可以把尺寸稍微調大一點，更有視覺衝擊力
           width: 280,
           height: 280,
           fit: BoxFit.contain,
-          
-          // 防呆備援：萬一離線沒網路，退回白色轉圈圈（在黑底下才看得見）
+
           errorBuilder: (context, error, stackTrace) {
             return const SizedBox(
               width: 70,
